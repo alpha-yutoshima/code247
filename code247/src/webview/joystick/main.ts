@@ -1,7 +1,7 @@
 import { Position, WebviewMessage } from "../../types/types";
 
 document.addEventListener("DOMContentLoaded", () => {
-  const vscode = acquireVsCodeApi();
+  const vscode = (window as any).acquireVsCodeApi();
   const joystickContainer = document.getElementById("joystick-container");
   if (!joystickContainer) {
     return;
@@ -56,4 +56,22 @@ document.addEventListener("DOMContentLoaded", () => {
     };
     vscode.postMessage(message);
   });
+
+  const runButtonContainer = document.getElementById("run-button");
+  if (runButtonContainer) {
+    runButtonContainer.addEventListener('click', () => {
+      vscode.postMessage({
+        command: 'runCommand'
+      });
+    });
+  }
+
+  const testButtonContainer = document.getElementById('test-button');
+  if (testButtonContainer) {
+    testButtonContainer.addEventListener('click', () => {
+      vscode.postMessage({
+        command: 'runTestCommand'
+      });
+    });
+  }
 });
